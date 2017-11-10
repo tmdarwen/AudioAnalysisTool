@@ -12,6 +12,7 @@
 #include <QResizeEvent>
 #include <QGraphicsView>
 #include <QFileDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -49,6 +50,15 @@ void MainWindow::OpenFile()
 	}
 }
 
+void MainWindow::About()
+{
+    QMessageBox::about(this, tr("Audio Analysis Tool"),
+            tr("<h2>Audio Analysis Tool</h2>"
+               "<p>Copyright &copy; 2017 Terence M. Darwen - tmdarwen.com"
+               "<p>A tool to... wait for it ...analyze audio."));
+}
+
+
 void MainWindow::SetupMenuBar()
 {
 	menuBar_ = new QMenuBar(this);
@@ -71,6 +81,7 @@ void MainWindow::SetupMenuBar()
 	actionAbout_ = new QAction(this);
 	actionAbout_->setObjectName(QStringLiteral("actionAbout"));
 	actionAbout_->setText("About");
+	connect(actionAbout_, SIGNAL(triggered()), this, SLOT(About()));
 
 	menuBar_->addAction(menuFile_->menuAction());
 	menuBar_->addAction(menuAbout_->menuAction());

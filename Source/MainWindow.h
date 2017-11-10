@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow
 
 	private slots:
 		void OpenFile();
+		void About();
 
 	private:
 		void SetupMenuBar();
