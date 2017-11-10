@@ -4,14 +4,12 @@
 
 class QMenuBar;
 class QMenu;
-class QMenu;
-class QAction;
 class QAction;
 class QWidget;
 class QTabWidget;
-class QWidget;
-class QWidget;
 class QGraphicsView;
+class QGraphicsScene;
+class Waveform;
 
 class MainWindow : public QMainWindow
 {
@@ -40,4 +38,9 @@ class MainWindow : public QMainWindow
 		QWidget*        dummyTab1_;
 		QWidget*        dummyTab2_;
 		QGraphicsView*  graphicsView_;
+		Waveform*       waveform_;
+		QGraphicsScene* scene_;
+
+		const int startingWidth_{1000};
+		const int startingHeight_{600};
 };

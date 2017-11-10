@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "Waveform.h"
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
@@ -9,7 +10,7 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
 #include <QResizeEvent>
-
+#include <QGraphicsView>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -19,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 		setWindowTitle("Audio Analysis Tool");
 	}
 
-	this->resize(1000, 640);
+	this->resize(startingWidth_, startingHeight_);
 
 	SetupMenuBar();
 
@@ -41,7 +42,7 @@ void MainWindow::SetupMenuBar()
 {
 	menuBar_ = new QMenuBar(this);
 	menuBar_->setObjectName(QStringLiteral("menubar"));
-	menuBar_->setGeometry(QRect(0, 0, 993, 21));
+	menuBar_->setGeometry(QRect(0, 0, startingWidth_, 21));
 
 	menuFile_ = new QMenu(menuBar_);
 	menuFile_->setTitle("File");
@@ -78,7 +79,7 @@ void MainWindow::SetupTabWidget()
 {
 	tabWidget_ = new QTabWidget(centralWidget_);
 	tabWidget_->setObjectName(QStringLiteral("MyWidget"));
-	tabWidget_->setGeometry(QRect(0, 280, 1001, 321));
+	tabWidget_->setGeometry(QRect(0, 280, startingWidth_, startingHeight_ / 2));
 
 	dummyTab1_ = new QWidget();
 	dummyTab1_->setObjectName(QStringLiteral("tab1"));
@@ -93,12 +94,27 @@ void MainWindow::SetupTabWidget()
 
 void MainWindow::SetupGraphicsView()
 {
+	waveform_ = new Waveform;
+	waveform_->setPos(QPoint(0, 0));
+
+	scene_ = new QGraphicsScene(0, 0, startingWidth_, startingHeight_ / 2);
+	scene_->addItem(waveform_);
+	scene_->setSceneRect(0, 0, startingWidth_, startingHeight_ / 2);
+
 	graphicsView_ = new QGraphicsView(centralWidget_);
-	graphicsView_->setObjectName(QStringLiteral("graphicsView"));
-	graphicsView_->setGeometry(QRect(0, 0, 1021, 281));
+	graphicsView_->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff);
+	graphicsView_->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff);
+	graphicsView_->setGeometry(QRect(0, 0, startingWidth_, startingHeight_ / 2));
+	graphicsView_->setScene(scene_);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
 	auto newSize = event->size();
+
+	graphicsView_->setGeometry(QRect(0, 0, newSize.width(), newSize.height()/2));
+
+	scene_->setSceneRect(0, 0, newSize.width(), newSize.height()/2);
+
+	tabWidget_->setGeometry(QRect(0, newSize.height()/2, newSize.width(), newSize.height()/2));
 }

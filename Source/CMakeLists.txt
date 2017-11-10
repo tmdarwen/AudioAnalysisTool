@@ -10,8 +10,14 @@ set(CMAKE_AUTOMOC ON)
 # Find the QtWidgets library
 find_package(Qt5Widgets)
 
+file(GLOB source_files [^.]*.h [^.]*.cpp)
+
 # Tell CMake to create the AudioAnalysisTool executable
-add_executable(AudioAnalysisTool WIN32 main.cpp MainWindow.cpp MainWindow.h)
+if(MSVC)
+	add_executable(AudioAnalysisTool WIN32 ${source_files})
+else()
+	add_executable(AudioAnalysisTool ${source_files})
+endif(MSVC)
 
 # Use the Widgets module from Qt 5.
 target_link_libraries(AudioAnalysisTool Qt5::Widgets)
