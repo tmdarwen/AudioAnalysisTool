@@ -22,6 +22,9 @@ class MainWindow : public QMainWindow
 	protected:
 		void resizeEvent(QResizeEvent *event);
 
+	private slots:
+		void OpenFile();
+
 	private:
 		void SetupMenuBar();
 		void SetupCentralWidget();

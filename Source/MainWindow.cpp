@@ -11,6 +11,7 @@
 #include <QtWidgets/QWidget>
 #include <QResizeEvent>
 #include <QGraphicsView>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -38,6 +39,16 @@ MainWindow::~MainWindow()
 
 }
 
+void MainWindow::OpenFile()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Wave File"), ".", tr("Wave Files (*.wav)"));
+	if(!fileName.isEmpty())
+	{
+		std::string waveFileName{fileName.toUtf8().constData()};
+		// TODO: Load file
+	}
+}
+
 void MainWindow::SetupMenuBar()
 {
 	menuBar_ = new QMenuBar(this);
@@ -55,6 +66,7 @@ void MainWindow::SetupMenuBar()
 	actionOpen_ = new QAction(this);
 	actionOpen_->setObjectName(QStringLiteral("actionOpen_"));
 	actionOpen_->setText("Open");
+	connect(actionOpen_, SIGNAL(triggered()), this, SLOT(OpenFile()));
 
 	actionAbout_ = new QAction(this);
 	actionAbout_->setObjectName(QStringLiteral("actionAbout"));
