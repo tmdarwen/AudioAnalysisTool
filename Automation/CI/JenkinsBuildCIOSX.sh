@@ -2,7 +2,7 @@
 mkdir DebugBuild
 cd DebugBuild
 /usr/local/bin/cmake -G "Xcode" -D CMAKE_PREFIX_PATH="${QtMSVCPath}" -DCMAKE_BUILD_TYPE=Debug ../Source
-xcodebuild -project PhaseVocoder.xcodeproj -configuration Debug
+xcodebuild -project AudioAnalysisTool.xcodeproj -configuration Debug
 
 cd ..
 
@@ -10,4 +10,4 @@ cd ..
 mkdir ReleaseBuild
 cd ReleaseBuild
 /usr/local/bin/cmake -G "Xcode"-D CMAKE_PREFIX_PATH="${QtMSVCPath}" -DCMAKE_BUILD_TYPE=Release ../Source
-xcodebuild -project PhaseVocoder.xcodeproj -configuration Release
+xcodebuild -project AudioAnalysisTool.xcodeproj -configuration Release
