@@ -1,7 +1,7 @@
 # Do a debug build
 mkdir DebugBuild
 cd DebugBuild
-/usr/local/bin/cmake -G "Xcode" -D CMAKE_PREFIX_PATH="${QtMSVCPath}" -DCMAKE_BUILD_TYPE=Debug ../Source
+/usr/local/bin/cmake -G "Xcode" -D CMAKE_PREFIX_PATH="${QtPath}" -DCMAKE_BUILD_TYPE=Debug ../Source
 xcodebuild -project AudioAnalysisTool.xcodeproj -configuration Debug
 
 cd ..
@@ -9,5 +9,5 @@ cd ..
 # Do a releaase build
 mkdir ReleaseBuild
 cd ReleaseBuild
-/usr/local/bin/cmake -G "Xcode"-D CMAKE_PREFIX_PATH="${QtMSVCPath}" -DCMAKE_BUILD_TYPE=Release ../Source
+/usr/local/bin/cmake -G "Xcode"-D CMAKE_PREFIX_PATH="${QtPath}" -DCMAKE_BUILD_TYPE=Release ../Source
 xcodebuild -project AudioAnalysisTool.xcodeproj -configuration Release
