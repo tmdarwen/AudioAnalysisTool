@@ -10,6 +10,12 @@ set(CMAKE_AUTOMOC ON)
 # Find the QtWidgets library
 find_package(Qt5Widgets)
 
+# "Externals" consists of GoogleTest and AudioLib
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSupport/CMakeLists.Externals.txt)
+include_externals()
+
+include_directories("${PROJECT_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/audiolib-src/Source")
+
 file(GLOB source_files [^.]*.h [^.]*.cpp)
 
 # Tell CMake to create the AudioAnalysisTool executable
@@ -21,3 +27,5 @@ endif(MSVC)
 
 # Use the Widgets module from Qt 5.
 target_link_libraries(AudioAnalysisTool Qt5::Widgets)
+
+set_target_properties(PhaseVocoder PROPERTIES FOLDER Apps)

@@ -46,7 +46,7 @@ void MainWindow::OpenFile()
 	if(!fileName.isEmpty())
 	{
 		std::string waveFileName{fileName.toUtf8().constData()};
-		// TODO: Load file
+		waveFileReader_.reset(new WaveFile::WaveFileReader(waveFileName));
 	}
 }
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QMainWindow>
+#include <memory>
+#include <WaveFile/WaveFileReader.h>
 
 class QMenuBar;
 class QMenu;
@@ -44,6 +46,8 @@ class MainWindow : public QMainWindow
 		QGraphicsView*  graphicsView_;
 		Waveform*       waveform_;
 		QGraphicsScene* scene_;
+
+		std::unique_ptr<WaveFile::WaveFileReader> waveFileReader_;
 
 		const int startingWidth_{1000};
 		const int startingHeight_{600};
