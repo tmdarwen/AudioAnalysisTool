@@ -29,7 +29,7 @@ then
 	exit 1
 fi
 
-xcodebuild -project AudioAnalysisTool.configuration Release
+xcodebuild -project AudioAnalysisTool.xcodeproj -configuration Release
 if [ $? -ne 0 ]
 then
 	echo "xcode build failed"
