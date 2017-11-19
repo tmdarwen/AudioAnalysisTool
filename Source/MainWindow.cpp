@@ -60,6 +60,7 @@ void MainWindow::OpenFile()
 		}
 
 		AudioFile::GetInstance().Initialize(waveFileName);
+		waveform_->update();
 	}
 }
 
