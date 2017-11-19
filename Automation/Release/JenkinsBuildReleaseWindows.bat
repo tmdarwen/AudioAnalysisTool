@@ -28,7 +28,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 REM Zip the executable
 echo "7z" a -tzip AudioAnalysisTool.zip "%WORKSPACE%\AudioAnalysisToolBuilt\Application\Release\AudioAnalysisTool.exe" 
-"7z" a -tzip AudioAnalysisTool.zip "%WORKSPACE%\AudioAnalysisToolBuilt\Application\Release\AudioAnalysisTool.exe" 
+"7z" a -tzip AudioAnalysisTool.zip "%WORKSPACE%\AudioAnalysisToolBuilt\Release\AudioAnalysisTool.exe" 
 
 IF %ERRORLEVEL% NEQ 0 (
     ECHO Zipping AudioAnalysisTool.exe failed
