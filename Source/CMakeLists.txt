@@ -25,7 +25,9 @@ else()
 	add_executable(AudioAnalysisTool ${source_files})
 endif(MSVC)
 
-# Use the Widgets module from Qt 5.
-target_link_libraries(AudioAnalysisTool Qt5::Widgets)
+include(${PROJECT_SOURCE_DIR}/CMakeSupport/CMakeLists.CompilerSettings.txt)
 
-set_target_properties(PhaseVocoder PROPERTIES FOLDER Apps)
+# Use the Widgets module from Qt 5.
+target_link_libraries(AudioAnalysisTool Qt5::Widgets WaveFile)
+
+set_target_properties(AudioAnalysisTool PROPERTIES FOLDER App)

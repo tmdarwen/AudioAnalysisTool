@@ -10,13 +10,14 @@ endfunction()
 function(include_externals)
 	# Pulldown GoogleTest
 	 if(MSVC)
-	 	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
-	 	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+		set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+		set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
 	 	set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # Prevent GoogleTest from overriding options when building with MSVC
 	endif(MSVC)
 	include_external(CMakeSupport/CMakeLists.GoogleTest.txt googletest "")
 	
 	# Pulldown AudioLib
 	option(INCLUDE_GOOGLE_TEST "Pulldown GoogleTest and include it in the project" OFF)
+	option(MSVC_MULTI_THREADED_DLL_RUNTIME_LIB "Allows for setting the runtime lib for MSVC compiler to multi-threaded DLL" ON)
 	include_external(CMakeSupport/CMakeLists.AudioLib.txt audiolib Source)
 endfunction()	

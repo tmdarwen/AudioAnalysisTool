@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "Waveform.h"
+#include "AudioFile.h"
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
@@ -46,7 +47,19 @@ void MainWindow::OpenFile()
 	if(!fileName.isEmpty())
 	{
 		std::string waveFileName{fileName.toUtf8().constData()};
-		waveFileReader_.reset(new WaveFile::WaveFileReader(waveFileName));
+
+		WaveFile::WaveFileReader waveFile(waveFileName);
+		auto seconds{waveFile.GetSampleCount() / waveFile.GetSampleRate()};
+		if(waveFile.GetChannels() != 1 || waveFile.GetBitsPerSample() != 16 || seconds < 1 || seconds > 30)
+		{
+			QMessageBox::about(this, tr("Audio Analysis Tool"),
+				tr("<h3>Cannot load audio file</h3>"
+				   "<p>Sorry, audio input files are restricted to mono, 16 bit<br>"
+				   "uncompressed wave files between 1 and 30 seconds in length."));
+			return;
+		}
+
+		AudioFile::GetInstance().Initialize(waveFileName);
 	}
 }
 
