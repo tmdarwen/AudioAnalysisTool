@@ -36,7 +36,7 @@ then
 	exit 1
 fi
 
-zip -j AudioAnalysisTool.zip "${WORKSPACE}/ReleaseBuild/Application/AudioAnalysisTool"
+zip -j AudioAnalysisTool.zip "${WORKSPACE}/ReleaseBuild/AudioAnalysisTool"
 if [ $? -ne 0 ]
 then
 	echo "Failed to zip AudioAnalysisTool"
