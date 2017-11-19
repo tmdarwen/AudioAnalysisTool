@@ -22,7 +22,7 @@ then
 	exit 1
 fi
 
-cmake -D CMAKE_BUILD_TYPE=Release -D VERSION_NUMBER=${Version} -D BUILD_NUMBER=${BUILD_NUMBER} -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH="${QtPath}" -G "Xcode" ../Source
+/usr/local/bin/cmake -D CMAKE_BUILD_TYPE=Release -D VERSION_NUMBER=${Version} -D BUILD_NUMBER=${BUILD_NUMBER} -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH="${QtPath}" -G "Xcode" ../Source
 if [ $? -ne 0 ]
 then
 	echo "Executing cmake failed"
