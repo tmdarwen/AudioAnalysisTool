@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "Waveform.h"
 #include "AudioFile.h"
+#include <Utilities/Stringify.h>
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
@@ -14,6 +15,19 @@
 #include <QGraphicsView>
 #include <QFileDialog>
 #include <QMessageBox>
+
+
+#ifndef VERSION_NUMBER
+#define VERSION_NUMBER Non-Production Build
+#endif
+
+#ifndef BUILD_NUMBER
+#define BUILD_NUMBER Non-Production Build
+#endif
+
+#define MACRO_TO_STRING_INDIRECT(s) #s
+#define MACRO_TO_STRING(s) MACRO_TO_STRING_INDIRECT(s)
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -66,10 +80,14 @@ void MainWindow::OpenFile()
 
 void MainWindow::About()
 {
-    QMessageBox::about(this, tr("Audio Analysis Tool"),
-            tr("<h2>Audio Analysis Tool</h2>"
-               "<p>Copyright &copy; 2017 Terence M. Darwen - tmdarwen.com"
-               "<p>A tool to... wait for it ...analyze audio."));
+	std::string content{Utilities::Stringify("<h2>Audio Analysis Tool</h2>"
+			"<p>A tool to... wait for it ...analyze audio."
+			"<p>Copyright &copy; 2017 Terence M. Darwen - tmdarwen.com<br>"
+			"Version: ") + Utilities::Stringify(MACRO_TO_STRING(VERSION_NUMBER)) + Utilities::Stringify("<br>") + 
+			Utilities::Stringify("Build: ") + Utilities::Stringify(MACRO_TO_STRING(BUILD_NUMBER)) + Utilities::Stringify("<br>") + 
+			Utilities::Stringify("Built: ") + Utilities::Stringify(__DATE__ ) + Utilities::Stringify(" ") + Utilities::Stringify(__TIME__)};
+
+	QMessageBox::about(this, tr("Audio Analysis Tool"), tr(content.c_str()));
 }
 
 
