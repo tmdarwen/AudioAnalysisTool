@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 2.8.11)
 
+if(VERSION_NUMBER)
+	add_definitions(-DVERSION_NUMBER=${VERSION_NUMBER})
+endif(VERSION_NUMBER)
+
+if(BUILD_NUMBER)
+	add_definitions(-DBUILD_NUMBER=${BUILD_NUMBER})
+endif(BUILD_NUMBER)
+
 project(AudioAnalysisTool)
 
 # Find includes in corresponding build directories
