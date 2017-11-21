@@ -42,7 +42,7 @@ void Waveform::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option
 			lowerPoints.push_back(QPoint(i, maxPoint));
 		}
 
-		std::for_each(lowerPoints.rbegin(), lowerPoints.rend(), [&](auto point) { polygon << point; });
+		std::for_each(lowerPoints.rbegin(), lowerPoints.rend(), [&polygon](QPoint& point) { polygon << point; });
 
 		painter->setPen(QPen(Qt::darkBlue));
 		painter->setBrush(Qt::darkBlue);
