@@ -80,12 +80,14 @@ void MainWindow::OpenFile()
 
 void MainWindow::About()
 {
+	// &nbsp's because I think a wider dialog box looks a little better
 	std::string content{Utilities::Stringify("<h2>Audio Analysis Tool</h2>"
-			"<p>A tool to... wait for it ...analyze audio."
-			"<p>Copyright &copy; 2017 Terence M. Darwen - tmdarwen.com<br>"
-			"Version: ") + Utilities::Stringify(MACRO_TO_STRING(VERSION_NUMBER)) + Utilities::Stringify("<br>") + 
-			Utilities::Stringify("Build: ") + Utilities::Stringify(MACRO_TO_STRING(BUILD_NUMBER)) + Utilities::Stringify("<br>") + 
-			Utilities::Stringify("Built: ") + Utilities::Stringify(__DATE__ ) + Utilities::Stringify(" ") + Utilities::Stringify(__TIME__)};
+		"<p>A tool to... wait for it ...analyze audio. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+		"<p>Copyright &copy; 2017 Terence M. Darwen<br>"
+		"More Info: <a href=http://www.tmdarwen.com>tmdarwen.com</a>"
+		"<p>Version: ") + Utilities::Stringify(MACRO_TO_STRING(VERSION_NUMBER)) + Utilities::Stringify("<br>") + 
+		Utilities::Stringify("Build: ") + Utilities::Stringify(MACRO_TO_STRING(BUILD_NUMBER)) + Utilities::Stringify("<br>") + 
+		Utilities::Stringify("Built: ") + Utilities::Stringify(__DATE__ ) + Utilities::Stringify(" ") + Utilities::Stringify(__TIME__)};
 
 	QMessageBox::about(this, tr("Audio Analysis Tool"), tr(content.c_str()));
 }
