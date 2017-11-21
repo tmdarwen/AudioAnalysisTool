@@ -8,9 +8,13 @@ class AudioFile : public Singleton<AudioFile>
 		void Initialize(const std::string& waveFileName);
 		std::shared_ptr<WaveFile::WaveFileReader> GetWaveFile();
 
-	protected:
+		const std::vector<double>& GetAudioData();
+
+	private:
 		std::string waveFileName_;
 		std::shared_ptr<WaveFile::WaveFileReader> waveFileReader_;
+
+		std::vector<double> audioData_;
 
 	friend Singleton<AudioFile>;
 };

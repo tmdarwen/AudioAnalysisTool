@@ -21,15 +21,14 @@ void Waveform::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option
 {
 	if(AudioFile::GetInstance().GetWaveFile().get())
 	{
-		auto waveFile{AudioFile::GetInstance().GetWaveFile()};
-		std::size_t width{static_cast<std::size_t>(scene()->sceneRect().width())};
-		std::size_t height{static_cast<std::size_t>(scene()->sceneRect().height())};
-		std::size_t halfHeight{static_cast<std::size_t>(scene()->sceneRect().height())/2};
-		std::size_t samplesPerPixel{waveFile->GetSampleCount() / width};
+		auto audioData{AudioFile::GetInstance().GetAudioData()};
 
-		auto audioData{waveFile->GetAudioData()[0].GetData()};
+		std::size_t width{static_cast<std::size_t>(scene()->sceneRect().width())};
+		std::size_t halfHeight{static_cast<std::size_t>(scene()->sceneRect().height())/2};
+		std::size_t samplesPerPixel{audioData.size() / width};
 
 		QPolygon polygon;
+		std::vector<QPoint> lowerPoints;
 
 		for(std::size_t i{0}; i < width; ++i)
 		{
@@ -39,8 +38,11 @@ void Waveform::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option
 			auto minPoint = halfHeight - (*(minMaxSamples.first) * halfHeight);
 			auto maxPoint = halfHeight - (*(minMaxSamples.second) * halfHeight);
 
-			polygon << QPoint(i, minPoint) << QPoint(i, maxPoint);
+			polygon << QPoint(i, minPoint);
+			lowerPoints.push_back(QPoint(i, maxPoint));
 		}
+
+		std::for_each(lowerPoints.rbegin(), lowerPoints.rend(), [&](auto point) { polygon << point; });
 
 		painter->setPen(QPen(Qt::darkBlue));
 		painter->setBrush(Qt::darkBlue);
