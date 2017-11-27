@@ -3,11 +3,11 @@
 #include <QGraphicsItem>
 #include <QResizeEvent>
 
-class Waveform : public QGraphicsItem
+class WaveformGraphicsItem : public QGraphicsItem
 {
 	public:
-	    Waveform();
-	    ~Waveform();
+	    WaveformGraphicsItem();
+	    ~WaveformGraphicsItem();
 
 	    QRectF boundingRect() const;
 	    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);

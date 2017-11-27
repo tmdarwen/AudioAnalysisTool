@@ -1,23 +1,23 @@
-#include "Waveform.h"
+#include "WaveformGraphicsItem.h"
 #include "AudioFile.h"
 #include <QGraphicsScene>
 #include <QPainter>
 #include <algorithm>
 
-Waveform::Waveform()
+WaveformGraphicsItem::WaveformGraphicsItem()
 {
 }
 
-Waveform::~Waveform()
+WaveformGraphicsItem::~WaveformGraphicsItem()
 {
 }
 
-QRectF Waveform::boundingRect() const
+QRectF WaveformGraphicsItem::boundingRect() const
 {
 	return scene()->sceneRect();
 }
 
-void Waveform::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /* widget */)
+void WaveformGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /* widget */)
 {
 	if(AudioFile::GetInstance().GetWaveFile().get())
 	{

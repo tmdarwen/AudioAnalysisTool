@@ -3,15 +3,13 @@
 #include <QMainWindow>
 #include <memory>
 #include <WaveFile/WaveFileReader.h>
+#include <TransientDetectionSettings.h>
+#include <TransientTabControl.h>
+#include <WaveformView.h>
 
 class QMenuBar;
 class QMenu;
 class QAction;
-class QWidget;
-class QTabWidget;
-class QGraphicsView;
-class QGraphicsScene;
-class Waveform;
 
 class MainWindow : public QMainWindow
 {
@@ -31,8 +29,10 @@ class MainWindow : public QMainWindow
 	private:
 		void SetupMenuBar();
 		void SetupCentralWidget();
-		void SetupTabWidget();
-		void SetupGraphicsView();
+
+		TransientDetectionSettings transientDetectionSettings_;
+		TransientTabControl transientTabControl_;
+		WaveformView waveformView_;
 
 		QMenuBar*       menuBar_;
 		QMenu*          menuFile_;
@@ -40,12 +40,6 @@ class MainWindow : public QMainWindow
 		QAction*        actionOpen_;
 		QAction*        actionAbout_;
 		QWidget*        centralWidget_;
-		QTabWidget*     tabWidget_;
-		QWidget*        dummyTab1_;
-		QWidget*        dummyTab2_;
-		QGraphicsView*  graphicsView_;
-		Waveform*       waveform_;
-		QGraphicsScene* scene_;
 
 		std::unique_ptr<WaveFile::WaveFileReader> waveFileReader_;
 
