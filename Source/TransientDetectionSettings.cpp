@@ -1,10 +1,10 @@
 #include "TransientDetectionSettings.h"
 
-#include <QLabel.h>
-#include <QGroupBox.h>
-#include <QGridLayout.h>
-#include <QLineEdit.h>
-#include <QObject.h>
+#include <QLabel>
+#include <QGroupBox>
+#include <QGridLayout>
+#include <QLineEdit>
+#include <QObject>
 
 TransientDetectionSettings::TransientDetectionSettings()
 {

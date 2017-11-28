@@ -17,6 +17,7 @@ set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
 find_package(Qt5Widgets)
+find_package(Qt5Charts)
 
 # "Externals" consists of GoogleTest and AudioLib
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeSupport/CMakeLists.Externals.txt)
@@ -36,6 +37,6 @@ endif(MSVC)
 include(${PROJECT_SOURCE_DIR}/CMakeSupport/CMakeLists.CompilerSettings.txt)
 
 # Use the Widgets module from Qt 5.
-target_link_libraries(AudioAnalysisTool Qt5::Widgets WaveFile)
+target_link_libraries(AudioAnalysisTool Qt5::Widgets Qt5::Charts WaveFile)
 
 set_target_properties(AudioAnalysisTool PROPERTIES FOLDER App)
