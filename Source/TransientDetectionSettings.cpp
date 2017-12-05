@@ -32,7 +32,8 @@ void TransientDetectionSettings::AddSettings(QHBoxLayout* hBoxLayout)
 
 	AddPeakSettings(vBoxLayout);
 
-	AddFrequencyDecimationSettings(vBoxLayout);
+	// Keeping the interface as simple as possible for now
+	//AddFrequencyDecimationSettings(vBoxLayout);
 
 	vBoxLayout->addStretch();
 }
