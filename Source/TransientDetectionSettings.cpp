@@ -11,6 +11,16 @@ TransientDetectionSettings::TransientDetectionSettings()
 
 }
 
+QLineEdit* TransientDetectionSettings::GetPeakThresholdLineEdit()
+{
+	return peakThresholdLineEdit_;
+}
+
+QLineEdit* TransientDetectionSettings::GetValleyToPeakRatioLineEdit()
+{
+	return valleyToPeakRatioLineEdit_;
+}
+
 void TransientDetectionSettings::AddSettings(QHBoxLayout* hBoxLayout)
 {
 	auto vBoxLayout = new QVBoxLayout();
@@ -122,4 +132,8 @@ void TransientDetectionSettings::AddFrequencyDecimationSettings(QVBoxLayout* vBo
 	thirdMsLabel->setText("ms");
 	thirdMsLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 	gridLayout->addWidget(thirdMsLabel, 3, 2);
+
+	firstLevelLineEdit_->setReadOnly(true);
+	secondLevelLineEdit_->setReadOnly(true);
+	thirdLevelLineEdit_->setReadOnly(true);
 }

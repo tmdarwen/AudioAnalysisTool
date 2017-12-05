@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QLineEdit>
 
 
 #ifndef VERSION_NUMBER
@@ -42,11 +43,40 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	SetupCentralWidget();
 
 	QMetaObject::connectSlotsByName(this);
+
+	QObject::connect(&transientTabControl_, SIGNAL(currentChanged(int)), this, SLOT(TabChanged(int)));
+	QObject::connect(transientDetectionSettings_.GetPeakThresholdLineEdit(), SIGNAL(returnPressed()), this, SLOT(PeakThresholdChanged()));
+	QObject::connect(transientDetectionSettings_.GetValleyToPeakRatioLineEdit(), SIGNAL(editingFinished()), this, SLOT(ValleyToPeakRatioChanged()));
 }
 
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::TabChanged(int tabNumber)
+{
+	waveformView_.HighlightTransient(tabNumber + 1);
+}
+
+void MainWindow::PeakThresholdChanged()
+{
+	int i = 1;
+}
+
+void MainWindow::ValleyToPeakRatioChanged()
+{
+	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
+	AudioFile().GetInstance().GetTransientDetector()->Reset();
+
+	// Only update and refresh the UI if the value actually changed
+	if(newValue != AudioFile().GetInstance().GetTransientDetector()->GetValleyToPeakRatio())
+	{
+		AudioFile().GetInstance().GetTransientDetector()->SetValleyToPeakRatio(newValue);
+		AudioFile().GetInstance().RefreshTransients();
+		waveformView_.Update();
+		transientTabControl_.Reset();
+	}
 }
 
 void MainWindow::OpenFile()
@@ -69,6 +99,7 @@ void MainWindow::OpenFile()
 
 		AudioFile::GetInstance().Initialize(waveFileName);
 		waveformView_.Update();
+		transientTabControl_.Reset();
 	}
 }
 
@@ -147,3 +178,4 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 	auto newSize = event->size();
 	waveformView_.Resize(newSize.width(), newSize.height() / 2);
 }
+

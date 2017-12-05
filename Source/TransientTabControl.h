@@ -1,27 +1,31 @@
 #pragma once
 
 #include <string>
+#include <QTabWidget>
+#include <TransientTabContents.h>
 
-class QTabWidget;
 class QWidget;
 class QHBoxLayout;
 class QVBoxLayout;
 
-class TransientTabControl
+class TransientTabControl : public QTabWidget
 {
+	Q_OBJECT
+
 	public:
 		TransientTabControl();
+
 		void AddControl(QHBoxLayout* hBoxLayout);
+		void Reset();
+
+	public slots:
+		void CurrentChangedSlot(int index);
 
 	private:
 		struct PointSettings;
 
-		void AddNewTab(const std::string& tabName);
-		void AddTabControls(QHBoxLayout* layout);
-		void AddSamplePosition(QVBoxLayout* controlLayout);
-		void AddLevelGroupBox(QVBoxLayout* controlLayout);
-		void AddPointSettings(QVBoxLayout* vBoxLayout, PointSettings&  pointSettings);
-		void AddChart(QHBoxLayout* tabLayout);
+		void AddTransientTabs();
+		void AddNewTab(std::size_t transientNumber);
 
-		QTabWidget*  tabControl_;
+		std::vector<TransientTabContents*> tabContents_;
 };

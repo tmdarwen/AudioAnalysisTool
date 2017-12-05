@@ -25,6 +25,9 @@ class MainWindow : public QMainWindow
 	private slots:
 		void OpenFile();
 		void About();
+		void TabChanged(int tabNumber);
+		void PeakThresholdChanged();
+		void ValleyToPeakRatioChanged();
 
 	private:
 		void SetupMenuBar();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 class QGraphicsView;
 class QGraphicsScene;
 class WaveformGraphicsItem;
@@ -12,6 +14,7 @@ class WaveformView
 		void AddControl(QVBoxLayout* hBoxLayout);
 		void Resize(int width, int height);
 		void Update();
+		void HighlightTransient(std::size_t transientNumber);
 
 	private:
 		QGraphicsView*        graphicsView_;

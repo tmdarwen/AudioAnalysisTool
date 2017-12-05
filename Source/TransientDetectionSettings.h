@@ -10,6 +10,9 @@ class TransientDetectionSettings
 		TransientDetectionSettings();
 		void AddSettings(QHBoxLayout* hBoxLayout);
 
+		QLineEdit* GetPeakThresholdLineEdit();
+		QLineEdit* GetValleyToPeakRatioLineEdit();
+
 	private:
 		void AddPeakSettings(QVBoxLayout* vBoxLayout);
 		void AddFrequencyDecimationSettings(QVBoxLayout* vBoxLayout);
