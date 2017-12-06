@@ -1,5 +1,4 @@
-#include "TransientTabControl.h"
-
+#include <TransientTabControl.h>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -54,10 +53,18 @@ void TransientTabControl::Reset()
 		}
 	}
 
-	std::for_each(tabContents_.begin(), tabContents_.end(), [](auto tabContents) { tabContents->Refresh(); });
+	// Tell the tab contents that they need to refresh their info
+	for(auto tab{tabContents_.begin()}; tab != tabContents_.end(); ++tab)
+	{
+		(*tab)->Refresh();
+	}
 
-	setCurrentIndex(0);
-	tabContents_[0]->Activated();
+	// Set view to transient 1 (As long as at least one tab exists)
+	if(count())
+	{
+		setCurrentIndex(0);
+		tabContents_[0]->Activated();
+	}
 }
 
 void TransientTabControl::AddTransientTabs()
@@ -77,5 +84,5 @@ void TransientTabControl::AddNewTab(std::size_t transientNumber)
 	addTab(tab, QString(tabName.c_str()));
 
 	// Add the contents of the tab
-	tabContents_.push_back(new TransientTabContents(tab, transientNumber));
+	tabContents_.push_back(std::unique_ptr<TransientTabContents>(new TransientTabContents(tab, transientNumber)));
 }

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
 #include <QTabWidget>
+#include <vector>
+#include <memory>
 #include <TransientTabContents.h>
 
 class QWidget;
@@ -27,5 +28,5 @@ class TransientTabControl : public QTabWidget
 		void AddTransientTabs();
 		void AddNewTab(std::size_t transientNumber);
 
-		std::vector<TransientTabContents*> tabContents_;
+		std::vector<std::unique_ptr<TransientTabContents>> tabContents_;
 };
