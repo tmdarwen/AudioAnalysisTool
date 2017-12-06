@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
 		void TabChanged(int tabNumber);
 		void PeakThresholdChanged();
 		void ValleyToPeakRatioChanged();
+		void TransientCheckBoxChanged(int state);
 
 	private:
 		void SetupMenuBar();

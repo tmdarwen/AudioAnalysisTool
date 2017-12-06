@@ -49,6 +49,11 @@ QPolygon WaveformGraphicsItem::CreateWaveformPolygon()
 
 void WaveformGraphicsItem::DrawTransientLines(QPainter* painter)
 {
+	if(!displayTransients_)
+	{
+		return;
+	}
+
 	std::size_t width{static_cast<std::size_t>(scene()->sceneRect().width())};
 	std::size_t height{static_cast<std::size_t>(scene()->sceneRect().height())};
 
@@ -94,5 +99,11 @@ void WaveformGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
 void WaveformGraphicsItem::SetActiveTransient(std::size_t activeTransientNumber)
 {
 	activeTransientNumber_ = activeTransientNumber;
+	update();
+}
+
+void WaveformGraphicsItem::DisplayTransients(bool displayTransients)
+{
+	displayTransients_ = displayTransients;
 	update();
 }

@@ -14,6 +14,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QCheckBox>
 
 
 #ifndef VERSION_NUMBER
@@ -47,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	QObject::connect(&transientTabControl_, SIGNAL(currentChanged(int)), this, SLOT(TabChanged(int)));
 	QObject::connect(transientDetectionSettings_.GetPeakThresholdLineEdit(), SIGNAL(returnPressed()), this, SLOT(PeakThresholdChanged()));
 	QObject::connect(transientDetectionSettings_.GetValleyToPeakRatioLineEdit(), SIGNAL(editingFinished()), this, SLOT(ValleyToPeakRatioChanged()));
+	QObject::connect(transientDetectionSettings_.GetTransientCheckBox(), SIGNAL(stateChanged(int)), this, SLOT(TransientCheckBoxChanged(int)));
 }
 
 MainWindow::~MainWindow()
@@ -179,3 +181,14 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 	waveformView_.Resize(newSize.width(), newSize.height() / 2);
 }
 
+void MainWindow::TransientCheckBoxChanged(int state)
+{
+	if(state == 0)
+	{
+		waveformView_.DisplayTransients(false);
+	}
+	else
+	{
+		waveformView_.DisplayTransients(true);
+	}
+}

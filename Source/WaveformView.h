@@ -15,6 +15,7 @@ class WaveformView
 		void Resize(int width, int height);
 		void Update();
 		void HighlightTransient(std::size_t transientNumber);
+		void DisplayTransients(bool displayTransients);
 
 	private:
 		QGraphicsView*        graphicsView_;

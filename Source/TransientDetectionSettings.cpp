@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QLineEdit>
+#include <QCheckBox>
 #include <QObject>
 
 TransientDetectionSettings::TransientDetectionSettings()
@@ -21,6 +22,11 @@ QLineEdit* TransientDetectionSettings::GetValleyToPeakRatioLineEdit()
 	return valleyToPeakRatioLineEdit_;
 }
 
+QCheckBox* TransientDetectionSettings::GetTransientCheckBox()
+{
+	return transientCheckBox_;
+}
+
 void TransientDetectionSettings::AddSettings(QHBoxLayout* hBoxLayout)
 {
 	auto vBoxLayout = new QVBoxLayout();
@@ -34,6 +40,8 @@ void TransientDetectionSettings::AddSettings(QHBoxLayout* hBoxLayout)
 
 	// Keeping the interface as simple as possible for now
 	//AddFrequencyDecimationSettings(vBoxLayout);
+
+	AddTransientCheckBox(vBoxLayout);
 
 	vBoxLayout->addStretch();
 }
@@ -137,4 +145,11 @@ void TransientDetectionSettings::AddFrequencyDecimationSettings(QVBoxLayout* vBo
 	firstLevelLineEdit_->setReadOnly(true);
 	secondLevelLineEdit_->setReadOnly(true);
 	thirdLevelLineEdit_->setReadOnly(true);
+}
+
+void TransientDetectionSettings::AddTransientCheckBox(QVBoxLayout* vBoxLayout)
+{
+	transientCheckBox_ = new QCheckBox("Display Transients on Waveform");
+	transientCheckBox_->setChecked(true);
+	vBoxLayout->addWidget(transientCheckBox_);
 }
