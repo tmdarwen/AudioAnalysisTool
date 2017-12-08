@@ -63,7 +63,13 @@ void MainWindow::TabChanged(int tabNumber)
 
 void MainWindow::PeakThresholdChanged()
 {
+	// Get the value and do some basic error checking
 	auto newValue{transientDetectionSettings_.GetPeakThresholdLineEdit()->text().toDouble()};
+	if(newValue < .01) { newValue = 0.1;  }
+	else if(newValue > 1.0) { newValue = 1.0;  }
+
+	// Update the UI with the actual value
+	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(newValue));
 
 	// Only update and refresh the UI if an audio file is loaded and the value actually changed
 	if(AudioFile().GetInstance().FileLoaded() && 
@@ -79,7 +85,13 @@ void MainWindow::PeakThresholdChanged()
 
 void MainWindow::ValleyToPeakRatioChanged()
 {
+	// Get the value and do some basic error checking
 	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
+	if(newValue < 1.01) { newValue = 1.01;  }
+	else if(newValue > 100.0) { newValue = 100.0;  }
+
+	// Update the UI with the actual value
+	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(newValue));
 
 	// Only update and refresh the UI if an audio file is loaded and the value actually changed
 	if(AudioFile().GetInstance().FileLoaded() && 
