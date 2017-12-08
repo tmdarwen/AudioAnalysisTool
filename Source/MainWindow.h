@@ -33,6 +33,7 @@ class MainWindow : public QMainWindow
 	private:
 		void SetupMenuBar();
 		void SetupCentralWidget();
+		void RefreshUIWithNewFile();
 
 		TransientDetectionSettings transientDetectionSettings_;
 		TransientTabControl transientTabControl_;

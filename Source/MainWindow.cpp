@@ -69,7 +69,7 @@ void MainWindow::PeakThresholdChanged()
 	else if(newValue > 1.0) { newValue = 1.0;  }
 
 	// Update the UI with the actual value
-	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(newValue));
+	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(newValue, 'f', 2));
 
 	// Only update and refresh the UI if an audio file is loaded and the value actually changed
 	if(AudioFile().GetInstance().FileLoaded() && 
@@ -91,7 +91,7 @@ void MainWindow::ValleyToPeakRatioChanged()
 	else if(newValue > 100.0) { newValue = 100.0;  }
 
 	// Update the UI with the actual value
-	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(newValue));
+	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(newValue, 'f', 2));
 
 	// Only update and refresh the UI if an audio file is loaded and the value actually changed
 	if(AudioFile().GetInstance().FileLoaded() && 
@@ -124,9 +124,18 @@ void MainWindow::OpenFile()
 		}
 
 		AudioFile::GetInstance().Initialize(waveFileName);
+		RefreshUIWithNewFile();
 		waveformView_.Update();
 		transientTabControl_.Reset();
+
 	}
+}
+
+void MainWindow::RefreshUIWithNewFile()
+{
+	auto transientDetector{AudioFile::GetInstance().GetTransientDetector()};
+	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(transientDetector->GetMinimumPeakLevel(), 'f', 2));
+	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(transientDetector->GetValleyToPeakRatio(), 'f', 2));
 }
 
 void MainWindow::About()
