@@ -84,5 +84,5 @@ void TransientTabControl::AddNewTab(std::size_t transientNumber)
 	addTab(tab, QString(tabName.c_str()));
 
 	// Add the contents of the tab
-	tabContents_.push_back(std::unique_ptr<TransientTabContents>(new TransientTabContents(tab, transientNumber)));
+	tabContents_.emplace_back(new TransientTabContents(tab, transientNumber));
 }
