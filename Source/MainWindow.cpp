@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	QMetaObject::connectSlotsByName(this);
 
 	QObject::connect(&transientTabControl_, SIGNAL(currentChanged(int)), this, SLOT(TabChanged(int)));
-	QObject::connect(transientDetectionSettings_.GetPeakThresholdLineEdit(), SIGNAL(returnPressed()), this, SLOT(PeakThresholdChanged()));
+	QObject::connect(transientDetectionSettings_.GetPeakThresholdLineEdit(), SIGNAL(editingFinished()), this, SLOT(PeakThresholdChanged()));
 	QObject::connect(transientDetectionSettings_.GetValleyToPeakRatioLineEdit(), SIGNAL(editingFinished()), this, SLOT(ValleyToPeakRatioChanged()));
 	QObject::connect(transientDetectionSettings_.GetTransientCheckBox(), SIGNAL(stateChanged(int)), this, SLOT(TransientCheckBoxChanged(int)));
 }
@@ -59,6 +59,21 @@ MainWindow::~MainWindow()
 void MainWindow::TabChanged(int tabNumber)
 {
 	waveformView_.HighlightTransient(tabNumber + 1);
+}
+
+void MainWindow::PeakThresholdChanged()
+{
+	auto newValue{transientDetectionSettings_.GetPeakThresholdLineEdit()->text().toDouble()};
+	AudioFile().GetInstance().GetTransientDetector()->Reset();
+
+	// Only update and refresh the UI if the value actually changed
+	if(newValue != AudioFile().GetInstance().GetTransientDetector()->GetMinimumPeakLevel())
+	{
+		AudioFile().GetInstance().GetTransientDetector()->SetMinimumPeakLevel(newValue);
+		AudioFile().GetInstance().RefreshTransients();
+		waveformView_.Update();
+		transientTabControl_.Reset();
+	}
 }
 
 void MainWindow::ValleyToPeakRatioChanged()
