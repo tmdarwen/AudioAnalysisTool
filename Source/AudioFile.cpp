@@ -12,6 +12,16 @@ void AudioFile::Initialize(const std::string& waveFileName)
 	transientDetector_->FindTransients(audioData_, transients_);
 }
 
+bool AudioFile::FileLoaded()
+{
+	if(waveFileReader_.get() == nullptr)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 std::shared_ptr<WaveFile::WaveFileReader> AudioFile::GetWaveFile()
 {
 	return waveFileReader_;

@@ -7,11 +7,15 @@ class AudioFile : public Singleton<AudioFile>
 {
 	public:
 		void Initialize(const std::string& waveFileName);
+
+		bool FileLoaded();  // Returns true if an audio file is loaded, false otherwise
+
 		std::shared_ptr<WaveFile::WaveFileReader> GetWaveFile();
-		std::shared_ptr<Signal::TransientDetector> GetTransientDetector();
 
 		const std::vector<double>& GetAudioData();
 
+		// Transient Methods
+		std::shared_ptr<Signal::TransientDetector> GetTransientDetector();
 		std::size_t GetTransientCount();
 		std::size_t GetTransient(std::size_t transientNumber);
 		const std::vector<std::size_t> GetTransients() const;

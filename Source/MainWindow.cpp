@@ -64,11 +64,12 @@ void MainWindow::TabChanged(int tabNumber)
 void MainWindow::PeakThresholdChanged()
 {
 	auto newValue{transientDetectionSettings_.GetPeakThresholdLineEdit()->text().toDouble()};
-	AudioFile().GetInstance().GetTransientDetector()->Reset();
 
-	// Only update and refresh the UI if the value actually changed
-	if(newValue != AudioFile().GetInstance().GetTransientDetector()->GetMinimumPeakLevel())
+	// Only update and refresh the UI if an audio file is loaded and the value actually changed
+	if(AudioFile().GetInstance().FileLoaded() && 
+		newValue != AudioFile().GetInstance().GetTransientDetector()->GetMinimumPeakLevel())
 	{
+		AudioFile().GetInstance().GetTransientDetector()->Reset();
 		AudioFile().GetInstance().GetTransientDetector()->SetMinimumPeakLevel(newValue);
 		AudioFile().GetInstance().RefreshTransients();
 		waveformView_.Update();
@@ -79,11 +80,12 @@ void MainWindow::PeakThresholdChanged()
 void MainWindow::ValleyToPeakRatioChanged()
 {
 	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
-	AudioFile().GetInstance().GetTransientDetector()->Reset();
 
-	// Only update and refresh the UI if the value actually changed
-	if(newValue != AudioFile().GetInstance().GetTransientDetector()->GetValleyToPeakRatio())
+	// Only update and refresh the UI if an audio file is loaded and the value actually changed
+	if(AudioFile().GetInstance().FileLoaded() && 
+		newValue != AudioFile().GetInstance().GetTransientDetector()->GetValleyToPeakRatio())
 	{
+		AudioFile().GetInstance().GetTransientDetector()->Reset();
 		AudioFile().GetInstance().GetTransientDetector()->SetValleyToPeakRatio(newValue);
 		AudioFile().GetInstance().RefreshTransients();
 		waveformView_.Update();
