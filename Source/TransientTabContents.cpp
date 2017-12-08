@@ -149,7 +149,7 @@ void TransientTabContents::RefreshPeakInfo()
 	auto pointText{Utilities::Stringify("Point: ") + Utilities::Stringify(peakPoint)};
 	peakPointWidget_->setText(pointText.c_str());
 
-	auto valueText{Utilities::Stringify("Value: ") + Utilities::Stringify(peakAndValleyInfo.plottedPoints_[peakPoint])};
+	auto valueText{Utilities::Stringify("Value: ") + Utilities::Stringify(peakAndValleyInfo.GetPlottedPoints()[peakPoint])};
 	peakValueWidget_->setText(valueText.c_str());
 }
 
@@ -163,7 +163,7 @@ void TransientTabContents::RefreshValleyInfo()
 	auto pointText{Utilities::Stringify("Point: ") + Utilities::Stringify(valleyPoint)};
 	valleyPointWidget_->setText(pointText.c_str());
 
-	auto valueText{Utilities::Stringify("Value: ") + Utilities::Stringify(peakAndValleyInfo.plottedPoints_[valleyPoint])};
+	auto valueText{Utilities::Stringify("Value: ") + Utilities::Stringify(peakAndValleyInfo.GetPlottedPoints()[valleyPoint])};
 	valleyValueWidget_->setText(valueText.c_str());
 }
 
@@ -175,7 +175,7 @@ void TransientTabContents::RefreshChart()
 	chartSeriesData_->clear();
 
 	std::size_t xPos{0};
-	for(auto point = peakAndValleyInfo.plottedPoints_.begin(); point != peakAndValleyInfo.plottedPoints_.end(); ++point)
+	for(auto point = peakAndValleyInfo.GetPlottedPoints().begin(); point != peakAndValleyInfo.GetPlottedPoints().end(); ++point)
 	{
 		chartSeriesData_->append(xPos, *point);
 		++xPos;
