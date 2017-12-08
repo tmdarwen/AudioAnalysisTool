@@ -61,11 +61,6 @@ void MainWindow::TabChanged(int tabNumber)
 	waveformView_.HighlightTransient(tabNumber + 1);
 }
 
-void MainWindow::PeakThresholdChanged()
-{
-	int i = 1;
-}
-
 void MainWindow::ValleyToPeakRatioChanged()
 {
 	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
