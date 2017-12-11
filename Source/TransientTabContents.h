@@ -37,10 +37,10 @@ class TransientTabContents : public QWidget
 		void RefreshValleyInfo();
 		void RefreshChart();
 
+		QWidget* parent_;
+		
 		std::size_t tabNumber_;
 		bool refresh_{true};
-
-		QWidget* parent_;
 
 		QtCharts::QLineSeries* chartSeriesData_;
 		QtCharts::QValueAxis* axisX_;

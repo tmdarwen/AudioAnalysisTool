@@ -3,7 +3,6 @@
 #include <QGraphicsScene>
 #include <QPainter>
 #include <algorithm>
-#include <Windows.h>
 
 WaveformGraphicsItem::WaveformGraphicsItem() : activeTransientNumber_{1}
 {

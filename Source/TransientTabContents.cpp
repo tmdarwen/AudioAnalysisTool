@@ -16,7 +16,6 @@
 #include <QLocale>
 #include <Utilities/Stringify.h>
 #include <AudioFile.h>
-#include <Windows.h>
 
 TransientTabContents::TransientTabContents(QWidget* parent, std::size_t tabNumber) : parent_{parent}, tabNumber_{tabNumber}
 {
