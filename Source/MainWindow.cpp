@@ -1,20 +1,20 @@
 #include "MainWindow.h"
-#include "Waveform.h"
 #include "AudioFile.h"
 #include <Utilities/Stringify.h>
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QTabWidget>
-#include <QtWidgets/QWidget>
 #include <QResizeEvent>
-#include <QGraphicsView>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QCheckBox>
 
 
 #ifndef VERSION_NUMBER
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 	if(this->objectName().isEmpty())
 	{
-		this->setObjectName(QStringLiteral("Audio Analysis Tool"));
+		this->setObjectName(QStringLiteral("AudioAnalysisTool"));
 		setWindowTitle("Audio Analysis Tool");
 	}
 
@@ -43,16 +43,66 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 	SetupCentralWidget();
 
-	SetupTabWidget();
-
-	SetupGraphicsView();
-
 	QMetaObject::connectSlotsByName(this);
+
+	QObject::connect(&transientTabControl_, SIGNAL(currentChanged(int)), this, SLOT(TabChanged(int)));
+	QObject::connect(transientDetectionSettings_.GetPeakThresholdLineEdit(), SIGNAL(editingFinished()), this, SLOT(PeakThresholdChanged()));
+	QObject::connect(transientDetectionSettings_.GetValleyToPeakRatioLineEdit(), SIGNAL(editingFinished()), this, SLOT(ValleyToPeakRatioChanged()));
+	QObject::connect(transientDetectionSettings_.GetTransientCheckBox(), SIGNAL(stateChanged(int)), this, SLOT(TransientCheckBoxChanged(int)));
 }
 
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::TabChanged(int tabNumber)
+{
+	waveformView_.HighlightTransient(tabNumber + 1);
+}
+
+void MainWindow::PeakThresholdChanged()
+{
+	// Get the value and do some basic error checking
+	auto newValue{transientDetectionSettings_.GetPeakThresholdLineEdit()->text().toDouble()};
+	if(newValue < .01) { newValue = 0.1;  }
+	else if(newValue > 1.0) { newValue = 1.0;  }
+
+	// Update the UI with the actual value
+	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(newValue, 'f', 2));
+
+	// Only update and refresh the UI if an audio file is loaded and the value actually changed
+	if(AudioFile().GetInstance().FileLoaded() && 
+		newValue != AudioFile().GetInstance().GetTransientDetector()->GetMinimumPeakLevel())
+	{
+		AudioFile().GetInstance().GetTransientDetector()->Reset();
+		AudioFile().GetInstance().GetTransientDetector()->SetMinimumPeakLevel(newValue);
+		AudioFile().GetInstance().RefreshTransients();
+		waveformView_.Update();
+		transientTabControl_.Reset();
+	}
+}
+
+void MainWindow::ValleyToPeakRatioChanged()
+{
+	// Get the value and do some basic error checking
+	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
+	if(newValue < 1.01) { newValue = 1.01;  }
+	else if(newValue > 100.0) { newValue = 100.0;  }
+
+	// Update the UI with the actual value
+	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(newValue, 'f', 2));
+
+	// Only update and refresh the UI if an audio file is loaded and the value actually changed
+	if(AudioFile().GetInstance().FileLoaded() && 
+		newValue != AudioFile().GetInstance().GetTransientDetector()->GetValleyToPeakRatio())
+	{
+		AudioFile().GetInstance().GetTransientDetector()->Reset();
+		AudioFile().GetInstance().GetTransientDetector()->SetValleyToPeakRatio(newValue);
+		AudioFile().GetInstance().RefreshTransients();
+		waveformView_.Update();
+		transientTabControl_.Reset();
+	}
 }
 
 void MainWindow::OpenFile()
@@ -74,18 +124,30 @@ void MainWindow::OpenFile()
 		}
 
 		AudioFile::GetInstance().Initialize(waveFileName);
-		waveform_->update();
+		RefreshUIWithNewFile();
+		waveformView_.Update();
+		transientTabControl_.Reset();
+
 	}
+}
+
+void MainWindow::RefreshUIWithNewFile()
+{
+	auto transientDetector{AudioFile::GetInstance().GetTransientDetector()};
+	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(transientDetector->GetMinimumPeakLevel(), 'f', 2));
+	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(transientDetector->GetValleyToPeakRatio(), 'f', 2));
 }
 
 void MainWindow::About()
 {
+	// &nbsp's because I think a wider dialog box looks a little better
 	std::string content{Utilities::Stringify("<h2>Audio Analysis Tool</h2>"
-			"<p>A tool to... wait for it ...analyze audio."
-			"<p>Copyright &copy; 2017 Terence M. Darwen - tmdarwen.com<br>"
-			"Version: ") + Utilities::Stringify(MACRO_TO_STRING(VERSION_NUMBER)) + Utilities::Stringify("<br>") + 
-			Utilities::Stringify("Build: ") + Utilities::Stringify(MACRO_TO_STRING(BUILD_NUMBER)) + Utilities::Stringify("<br>") + 
-			Utilities::Stringify("Built: ") + Utilities::Stringify(__DATE__ ) + Utilities::Stringify(" ") + Utilities::Stringify(__TIME__)};
+		"<p>A tool to... wait for it ...analyze audio. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+		"<p>Copyright &copy; 2017 Terence M. Darwen<br>"
+		"More Info: <a href=http://www.tmdarwen.com>tmdarwen.com</a>"
+		"<p>Version: ") + Utilities::Stringify(MACRO_TO_STRING(VERSION_NUMBER)) + Utilities::Stringify("<br>") + 
+		Utilities::Stringify("Build: ") + Utilities::Stringify(MACRO_TO_STRING(BUILD_NUMBER)) + Utilities::Stringify("<br>") + 
+		Utilities::Stringify("Built: ") + Utilities::Stringify(__DATE__ ) + Utilities::Stringify(" ") + Utilities::Stringify(__TIME__)};
 
 	QMessageBox::about(this, tr("Audio Analysis Tool"), tr(content.c_str()));
 }
@@ -94,24 +156,24 @@ void MainWindow::About()
 void MainWindow::SetupMenuBar()
 {
 	menuBar_ = new QMenuBar(this);
-	menuBar_->setObjectName(QStringLiteral("menubar"));
+	menuBar_->setObjectName(QStringLiteral("MenuBar"));
 	menuBar_->setGeometry(QRect(0, 0, startingWidth_, 21));
 
 	menuFile_ = new QMenu(menuBar_);
 	menuFile_->setTitle("File");
-	menuFile_->setObjectName(QStringLiteral("menuFile"));
+	menuFile_->setObjectName(QStringLiteral("MenuFile"));
 
 	menuAbout_ = new QMenu(menuBar_);
 	menuAbout_->setTitle("About");
-	menuAbout_->setObjectName(QStringLiteral("menuAbout"));
+	menuAbout_->setObjectName(QStringLiteral("MenuAbout"));
 
 	actionOpen_ = new QAction(this);
-	actionOpen_->setObjectName(QStringLiteral("actionOpen_"));
+	actionOpen_->setObjectName(QStringLiteral("ActionOpen"));
 	actionOpen_->setText("Open");
 	connect(actionOpen_, SIGNAL(triggered()), this, SLOT(OpenFile()));
 
 	actionAbout_ = new QAction(this);
-	actionAbout_->setObjectName(QStringLiteral("actionAbout"));
+	actionAbout_->setObjectName(QStringLiteral("ActionAbout"));
 	actionAbout_->setText("About");
 	connect(actionAbout_, SIGNAL(triggered()), this, SLOT(About()));
 
@@ -126,50 +188,41 @@ void MainWindow::SetupMenuBar()
 void MainWindow::SetupCentralWidget()
 {
 	centralWidget_ = new QWidget(this);
-	centralWidget_->setObjectName(QStringLiteral("centralWidget"));
+	centralWidget_->setObjectName(QStringLiteral("CentralWidget"));
 	this->setCentralWidget(centralWidget_);
-}
 
-void MainWindow::SetupTabWidget()
-{
-	tabWidget_ = new QTabWidget(centralWidget_);
-	tabWidget_->setObjectName(QStringLiteral("MyWidget"));
-	tabWidget_->setGeometry(QRect(0, 280, startingWidth_, startingHeight_ / 2));
+	// The main display is a vertical layout with two rows.  The first (top) 
+	// row contains the waveform and the second (bottom) row contains an 
+	// HBoxLayout with the transient detection settings and tab control.
 
-	dummyTab1_ = new QWidget();
-	dummyTab1_->setObjectName(QStringLiteral("tab1"));
-	tabWidget_->addTab(dummyTab1_, QString("Dummy Tab 1"));
+	auto vBoxLayout = new QVBoxLayout(centralWidget_);
+	
+	waveformView_.AddControl(vBoxLayout);
 
-	dummyTab2_ = new QWidget();
-	dummyTab2_->setObjectName(QStringLiteral("tab2"));
-	tabWidget_->addTab(dummyTab2_, QString("Dummy Tab 2"));
+	auto hBoxLayout = new QHBoxLayout();
 
-	tabWidget_->setCurrentIndex(0);
-}
+	vBoxLayout->addLayout(hBoxLayout);
 
-void MainWindow::SetupGraphicsView()
-{
-	waveform_ = new Waveform;
-	waveform_->setPos(QPoint(0, 0));
+	transientDetectionSettings_.AddSettings(hBoxLayout);
 
-	scene_ = new QGraphicsScene(0, 0, startingWidth_, startingHeight_ / 2);
-	scene_->addItem(waveform_);
-	scene_->setSceneRect(0, 0, startingWidth_, startingHeight_ / 2);
-
-	graphicsView_ = new QGraphicsView(centralWidget_);
-	graphicsView_->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff);
-	graphicsView_->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff);
-	graphicsView_->setGeometry(QRect(0, 0, startingWidth_, startingHeight_ / 2));
-	graphicsView_->setScene(scene_);
+	transientTabControl_.AddControl(hBoxLayout);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
 	auto newSize = event->size();
+	waveformView_.Resize(newSize.width(), newSize.height() / 2);
+	transientTabControl_.ResetHeight(newSize.height() / 2 - tabControlPadding_);
+}
 
-	graphicsView_->setGeometry(QRect(0, 0, newSize.width(), newSize.height()/2));
-
-	scene_->setSceneRect(0, 0, newSize.width(), newSize.height()/2);
-
-	tabWidget_->setGeometry(QRect(0, newSize.height()/2, newSize.width(), newSize.height()/2));
+void MainWindow::TransientCheckBoxChanged(int state)
+{
+	if(state == 0)
+	{
+		waveformView_.DisplayTransients(false);
+	}
+	else
+	{
+		waveformView_.DisplayTransients(true);
+	}
 }
