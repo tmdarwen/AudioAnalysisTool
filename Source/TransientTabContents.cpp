@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QGridLayout>
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QLabel>
@@ -25,9 +26,11 @@ TransientTabContents::TransientTabContents(QWidget* parent, std::size_t tabNumbe
 
 void TransientTabContents::AddControls(QHBoxLayout* tabLayout)
 {
-	auto controlLayout = new QVBoxLayout();
+	auto sideLayout = new QHBoxLayout();
+	tabLayout->addLayout(sideLayout);
 
-	tabLayout->addLayout(controlLayout);
+	auto controlLayout = new QVBoxLayout();
+	sideLayout->addLayout(controlLayout);
 
 	AddSamplePosition(controlLayout);
 
@@ -37,14 +40,12 @@ void TransientTabContents::AddControls(QHBoxLayout* tabLayout)
 
 	controlLayout->addStretch();
 
-	tabLayout->addLayout(controlLayout);
-
 	AddChart(tabLayout);
 }
 
 void TransientTabContents::AddSamplePosition(QVBoxLayout* controlLayout)
 {
-	samplePosition_ = new QLabel("");
+	samplePosition_ = new QLabel("TransientSamplePosition");
 	samplePosition_->setText("Transient Sample Position: ");
 	controlLayout->addWidget(samplePosition_);
 }
@@ -79,6 +80,7 @@ void TransientTabContents::AddChart(QHBoxLayout* tabLayout)
 	chartSeriesData_->attachAxis(axisY);
 
 	auto chartView = new QtCharts::QChartView(chart);
+	chart->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 
 	tabLayout->addWidget(chartView);
 }
@@ -104,13 +106,13 @@ void TransientTabContents::AddPointSettings(QVBoxLayout* vBoxLayout, const std::
 
 	if(type == "Peak")
 	{
-		pointLabel = peakPointWidget_ = new QLabel();
-		valueLabel = peakValueWidget_ = new QLabel();
+		pointLabel = peakPointWidget_ = new QLabel("PeakPoint");
+		valueLabel = peakValueWidget_ = new QLabel("PeakValue");
 	}
 	else
 	{
-		pointLabel = valleyPointWidget_ = new QLabel();
-		valueLabel = valleyValueWidget_ = new QLabel();
+		pointLabel = valleyPointWidget_ = new QLabel("ValleyPoint");
+		valueLabel = valleyValueWidget_ = new QLabel("ValleyValue");
 	}
 
 	// Add the point

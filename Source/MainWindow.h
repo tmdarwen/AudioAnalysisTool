@@ -50,4 +50,6 @@ class MainWindow : public QMainWindow
 
 		const int startingWidth_{1000};
 		const int startingHeight_{600};
+
+		const int tabControlPadding_{20};
 };

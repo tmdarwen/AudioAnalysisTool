@@ -19,6 +19,8 @@ class TransientTabControl : public QTabWidget
 		void AddControl(QHBoxLayout* hBoxLayout);
 		void Reset();
 
+		void ResetHeight(std::size_t newHeight);
+
 	public slots:
 		void CurrentChangedSlot(int index);
 

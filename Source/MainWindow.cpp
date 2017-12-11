@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 	if(this->objectName().isEmpty())
 	{
-		this->setObjectName(QStringLiteral("Audio Analysis Tool"));
+		this->setObjectName(QStringLiteral("AudioAnalysisTool"));
 		setWindowTitle("Audio Analysis Tool");
 	}
 
@@ -156,24 +156,24 @@ void MainWindow::About()
 void MainWindow::SetupMenuBar()
 {
 	menuBar_ = new QMenuBar(this);
-	menuBar_->setObjectName(QStringLiteral("menubar"));
+	menuBar_->setObjectName(QStringLiteral("MenuBar"));
 	menuBar_->setGeometry(QRect(0, 0, startingWidth_, 21));
 
 	menuFile_ = new QMenu(menuBar_);
 	menuFile_->setTitle("File");
-	menuFile_->setObjectName(QStringLiteral("menuFile"));
+	menuFile_->setObjectName(QStringLiteral("MenuFile"));
 
 	menuAbout_ = new QMenu(menuBar_);
 	menuAbout_->setTitle("About");
-	menuAbout_->setObjectName(QStringLiteral("menuAbout"));
+	menuAbout_->setObjectName(QStringLiteral("MenuAbout"));
 
 	actionOpen_ = new QAction(this);
-	actionOpen_->setObjectName(QStringLiteral("actionOpen_"));
+	actionOpen_->setObjectName(QStringLiteral("ActionOpen"));
 	actionOpen_->setText("Open");
 	connect(actionOpen_, SIGNAL(triggered()), this, SLOT(OpenFile()));
 
 	actionAbout_ = new QAction(this);
-	actionAbout_->setObjectName(QStringLiteral("actionAbout"));
+	actionAbout_->setObjectName(QStringLiteral("ActionAbout"));
 	actionAbout_->setText("About");
 	connect(actionAbout_, SIGNAL(triggered()), this, SLOT(About()));
 
@@ -188,7 +188,7 @@ void MainWindow::SetupMenuBar()
 void MainWindow::SetupCentralWidget()
 {
 	centralWidget_ = new QWidget(this);
-	centralWidget_->setObjectName(QStringLiteral("centralWidget"));
+	centralWidget_->setObjectName(QStringLiteral("CentralWidget"));
 	this->setCentralWidget(centralWidget_);
 
 	// The main display is a vertical layout with two rows.  The first (top) 
@@ -212,6 +212,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
 	auto newSize = event->size();
 	waveformView_.Resize(newSize.width(), newSize.height() / 2);
+	transientTabControl_.ResetHeight(newSize.height() / 2 - tabControlPadding_);
 }
 
 void MainWindow::TransientCheckBoxChanged(int state)

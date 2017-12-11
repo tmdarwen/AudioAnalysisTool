@@ -5,6 +5,7 @@
 class TransientTabControl;
 class QHBoxLayout;
 class QVBoxLayout;
+class QGridLayout;
 class QLabel;
 
 namespace QtCharts
@@ -51,5 +52,4 @@ class TransientTabContents : public QWidget
 
 		QLabel* valleyValueWidget_;
 		QLabel* valleyPointWidget_;
-
 };

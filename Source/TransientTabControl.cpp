@@ -86,3 +86,9 @@ void TransientTabControl::AddNewTab(std::size_t transientNumber)
 	// Add the contents of the tab
 	tabContents_.emplace_back(new TransientTabContents(tab, transientNumber));
 }
+
+void TransientTabControl::ResetHeight(std::size_t newHeight)
+{
+	setFixedHeight(newHeight);
+}
+
