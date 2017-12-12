@@ -3,6 +3,8 @@ ECHO Build number is %BUILD_NUMBER%
 
 call "%VisualStudioPath%\vcvarsall.bat" amd64
 
+cd %WORKSPACE%
+
 REM Switch to the tag
 git checkout tags/v%Version%
 
