@@ -87,7 +87,7 @@ void MainWindow::ValleyToPeakRatioChanged()
 {
 	// Get the value and do some basic error checking
 	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
-	if(newValue < 1.01) { newValue = 1.01;  }
+	if(newValue < 0.1) { newValue = 0.1;  }
 	else if(newValue > 100.0) { newValue = 100.0;  }
 
 	// Update the UI with the actual value
