@@ -31,7 +31,7 @@ Currently the Audio Analysis Tool's only feature is analyzing [audio transients]
 
 1.   cd into this new directory.
 
-1.   From the command line, run *cmake -G YourDesiredGeneratorType  -D CMAKE_PREFIX_PATH=QtPath ../PhaseVocoder/Source*
+1.   From the command line, run *cmake -G YourDesiredGeneratorType  -D CMAKE_PREFIX_PATH=QtPath ../AudioAnalysisTool/Source*
 
 1.   Run make or open the project file in an IDE and build.
 
