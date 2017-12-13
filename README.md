@@ -17,7 +17,7 @@ Currently the Audio Analysis Tool's only feature is analyzing [audio transients]
 
 -   Building this project requires a C++14 compliant compiler.  This project is routinely built in my continous integration system which uses MS Visual Studio 2017, GCC 5.3.1 and Apple LLVM version 7.3.0 (clang 703.0.31).
 
--   [Qt](https://www1.qt.io/product/) with [QtCharts](https://doc.qt.io/qt-5/qtcharts-index.html) installed.  I've been using Qt v5.9.2 but I imagine this project *should* build with earlier versions of Qt (possibly even back to Qt 4) and I would be surprised if it didn't build with later versions of Qt.
+-   [Qt](https://www1.qt.io/product/) binaries, including [QtCharts](https://doc.qt.io/qt-5/qtcharts-index.html), must be installed.  I've been using Qt v5.9.2 but I imagine this project *should* build with earlier versions of Qt (possibly even back to Qt 4) and I would be surprised if it didn't build with later versions of Qt.
 
 -   External dependencies are my [AudioLib](https://github.com/tmdarwen/AudioLib) and [GoogleTest](https://github.com/google/googletest).  You do *not* need to clone or install these dependencies manually. The GitHub repos will be cloned automatically when CMake runs.
 
