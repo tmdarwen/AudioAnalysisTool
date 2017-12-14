@@ -9,7 +9,7 @@ I've used [Qt](https://www1.qt.io/product/) to help with this and, so far, I'm f
 
 ![The Audio Analysis Tool on MacOS](Documentation/Images/ScreenshotOnMacOS.png)
 
-Currently the Audio Analysis Tool's only feature is analyzing [audio transients](https://github.com/tmdarwen/AudioLib/blob/master/Documentation/TransientDetection.md).  It allows key settings to be tweaked in attempt to improve the algorithm in certain situations.  I have a number of other additional analysis features I plan on adding though.
+Currently the Audio Analysis Tool's only feature is analyzing audio transients.  A detailed description of my transient detection algorithm can be found [here](https://github.com/tmdarwen/AudioLib/blob/master/Documentation/TransientDetection.md).  The Audio Analysis Tool allows key transient detection settings to be tweaked in attempt to improve the transient detection results under various conditions.  I plan on adding additional audio analysis features in the near future.
 
  
 
@@ -17,7 +17,7 @@ Currently the Audio Analysis Tool's only feature is analyzing [audio transients]
 
 -   Building this project requires [CMake](https://cmake.org) version 3.0 or later.
 
--   Building this project requires a C++14 compliant compiler.  This project is routinely built in my continous integration system which uses MS Visual Studio 2017, GCC 5.3.1 and Apple LLVM version 7.3.0 (clang 703.0.31).
+-   Building this project requires a C++14 compliant compiler.  This project is routinely built in my continous integration system which currently uses MS Visual Studio 2017, GCC 5.3.1 and Apple LLVM version 7.3.0 (clang 703.0.31).
 
 -   [Qt](https://www1.qt.io/product/) binaries, including [QtCharts](https://doc.qt.io/qt-5/qtcharts-index.html), must be installed.  I've been using Qt v5.9.2 but I imagine this project *should* build with earlier versions of Qt (possibly even back to Qt 4) and I would be surprised if it didn't build with later versions of Qt.
 
