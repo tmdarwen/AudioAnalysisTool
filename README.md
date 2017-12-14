@@ -9,7 +9,7 @@ I've used [Qt](https://www1.qt.io/product/) to help with this and, so far, I'm f
 
 ![The Audio Analysis Tool on MacOS](Documentation/Images/ScreenshotOnMacOS.png)
 
-Currently the Audio Analysis Tool's only feature is analyzing audio transients.  A detailed explanation of my transient detection algorithm can be found [here](https://github.com/tmdarwen/AudioLib/blob/master/Documentation/TransientDetection.md).  The Audio Analysis Tool allows key transient detection settings to be tweaked in attempt to improve the transient detection results under various conditions.  I plan on adding additional audio analysis features in the near future.
+Currently the Audio Analysis Tool's only feature is analyzing audio transients.  A detailed description of my transient detection algorithm can be found [here](https://github.com/tmdarwen/AudioLib/blob/master/Documentation/TransientDetection.md).  The Audio Analysis Tool allows key transient detection settings to be tweaked in attempt to improve the transient detection results under various conditions.  I plan on adding additional audio analysis features in the near future.
 
  
 
