@@ -1,9 +1,11 @@
 AudioAnalysisTool
 =================
 
-A cross platform UI tool to... wait for it... analyze audio.  One of my pursuits in life involves software algorithms that manipulate audio in various ways.  This frequently entails analyzing various numerical data.
+One of my pursuits in life involves software algorithms that manipulate audio in various ways.  This frequently entails analyzing various numerical data.
 
-Tired with writing specialized scripts corralling specific data and/or wrestling with Excel, and not being crazy abouting learning yet another language ([R](https://www.r-project.org/about.html)), I decided to make my own audio analysis tool that represents data in various ways.  I've used [Qt](https://www1.qt.io/product/) to help with this and, so far, I'm pretty happy with the results.  I've built and used this software on Windows, Ubuntu and MacOS.  Here's a screenshot:
+Tired with writing specialized scripts corralling specific data and/or wrestling with Excel, and not being crazy abouting learning yet another language ([R](https://www.r-project.org/about.html)), I set out to make my own tool to aid in analysis of my various audio processing algorithms
+
+I've used [Qt](https://www1.qt.io/product/) to help with this and, so far, I'm fairly happy with the results.  I've built and used this software on Windows, Ubuntu and MacOS.  Here's a current screenshot:
 
 ![The Audio Analysis Tool on MacOS](Documentation/Images/ScreenshotOnMacOS.png)
 
