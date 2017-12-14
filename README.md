@@ -3,7 +3,7 @@ AudioAnalysisTool
 
 One of my interests involves creating software algorithms that manipulate audio in various ways.  This frequently involves analyzing various numerical data.
 
-Tired with writing specialized scripts corralling specific data and/or wrestling with Excel, and not being crazy abouting learning yet another language ([R](https://www.r-project.org/about.html)), I set out to make my own tool to aid in analysis of my various audio processing algorithms.
+Tired with writing specialized scripts corralling specific data and/or wrestling with Excel, I set out to make my own tool to aid in analysis of my various audio processing algorithms.
 
 I've used [Qt](https://www1.qt.io/product/) to help with this and, so far, I'm fairly happy with the results.  I've built and used this software on Windows, Ubuntu and MacOS.  Here's a current screenshot:
 
