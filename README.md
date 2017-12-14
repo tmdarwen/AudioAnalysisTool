@@ -1,7 +1,7 @@
 AudioAnalysisTool
 =================
 
-One of my pursuits in life involves software algorithms that manipulate audio in various ways.  This frequently entails analyzing various numerical data.
+One of my pursuits in life involves crreating software algorithms that manipulate audio in various ways.  This frequently entails analyzing various numerical data.
 
 Tired with writing specialized scripts corralling specific data and/or wrestling with Excel, and not being crazy abouting learning yet another language ([R](https://www.r-project.org/about.html)), I set out to make my own tool to aid in analysis of my various audio processing algorithms
 
