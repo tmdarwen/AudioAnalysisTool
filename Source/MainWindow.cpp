@@ -118,7 +118,7 @@ void MainWindow::OpenFile()
 		{
 			QMessageBox::about(this, tr("Audio Analysis Tool"),
 				tr("<h3>Cannot load audio file</h3>"
-				   "<p>Sorry, audio input files are restricted to mono, 16 bit<br>"
+				   "<p>Sorry, audio input files are currently restricted to mono, 16 bit<br>"
 				   "uncompressed wave files between 1 and 30 seconds in length."));
 			return;
 		}
@@ -143,7 +143,7 @@ void MainWindow::About()
 	// &nbsp's because I think a wider dialog box looks a little better
 	std::string content{Utilities::Stringify("<h2>Audio Analysis Tool</h2>"
 		"<p>A tool to... wait for it ...analyze audio. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
-		"<p>Copyright &copy; 2017 Terence M. Darwen<br>"
+		"<p>Copyright &copy; 2017-2018 Terence M. Darwen<br>"
 		"More Info: <a href=http://www.tmdarwen.com>tmdarwen.com</a>"
 		"<p>Version: ") + Utilities::Stringify(MACRO_TO_STRING(VERSION_NUMBER)) + Utilities::Stringify("<br>") + 
 		Utilities::Stringify("Build: ") + Utilities::Stringify(MACRO_TO_STRING(BUILD_NUMBER)) + Utilities::Stringify("<br>") + 
