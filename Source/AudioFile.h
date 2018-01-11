@@ -12,7 +12,10 @@ class AudioFile : public Singleton<AudioFile>
 
 		std::shared_ptr<WaveFile::WaveFileReader> GetWaveFile();
 
-		const std::vector<double>& GetAudioData();
+		const AudioData& GetAudioData();
+
+		// Returns the number of samples in the audio file
+		std::size_t GetSampleCount();
 
 		// Transient Methods
 		std::shared_ptr<Signal::TransientDetector> GetTransientDetector();
@@ -21,13 +24,18 @@ class AudioFile : public Singleton<AudioFile>
 		const std::vector<std::size_t> GetTransients() const;
 		void RefreshTransients();
 
+		std::vector<double> GetPeakValues();
+		std::vector<std::size_t> GetFirstStepPeakPositions();
+
 	private:
 		std::string waveFileName_;
 		std::shared_ptr<WaveFile::WaveFileReader> waveFileReader_;
-		std::vector<double> audioData_;
+		AudioData audioData_;
 
 		std::shared_ptr<Signal::TransientDetector> transientDetector_;
 		std::vector<std::size_t> transients_;
+
+		std::vector<double> peakValues_;
 
 	friend Singleton<AudioFile>;
 };

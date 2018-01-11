@@ -1,6 +1,5 @@
 #include "WaveformView.h"
 #include "WaveformGraphicsItem.h"
-
 #include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -40,12 +39,19 @@ void WaveformView::Update()
 	waveformGraphicsItem_->update();
 }
 
-void WaveformView::HighlightTransient(std::size_t transientNumber)
-{
-	waveformGraphicsItem_->SetActiveTransient(transientNumber);
-}
-
 void WaveformView::DisplayTransients(bool displayTransients)
 {
 	waveformGraphicsItem_->DisplayTransients(displayTransients);
+}
+
+void WaveformView::HighlightAnalysisArea(bool highlightAnalysisArea)
+{
+	waveformGraphicsItem_->HighlightAnalysisArea(highlightAnalysisArea);
+	Update();
+}
+
+void WaveformView::UpdateAnalysisArea(std::size_t sampleStart, std::size_t sampleEnd)
+{
+	waveformGraphicsItem_->UpdateAnalysisWindow(sampleStart, sampleEnd);
+	Update();
 }

@@ -14,8 +14,9 @@ class WaveformView
 		void AddControl(QVBoxLayout* hBoxLayout);
 		void Resize(int width, int height);
 		void Update();
-		void HighlightTransient(std::size_t transientNumber);
 		void DisplayTransients(bool displayTransients);
+		void HighlightAnalysisArea(bool highlightAnalysisArea);
+		void UpdateAnalysisArea(std::size_t sampleStart, std::size_t sampleEnd);
 
 	private:
 		QGraphicsView*        graphicsView_;

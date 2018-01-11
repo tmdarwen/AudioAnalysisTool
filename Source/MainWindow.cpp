@@ -10,12 +10,7 @@
 #include <QResizeEvent>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QLabel>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLineEdit>
-#include <QCheckBox>
-
 
 #ifndef VERSION_NUMBER
 #define VERSION_NUMBER Non-Production Build
@@ -38,17 +33,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	}
 
 	this->resize(startingWidth_, startingHeight_);
-
 	SetupMenuBar();
-
 	SetupCentralWidget();
-
-	QMetaObject::connectSlotsByName(this);
-
-	QObject::connect(&transientTabControl_, SIGNAL(currentChanged(int)), this, SLOT(TabChanged(int)));
-	QObject::connect(transientDetectionSettings_.GetPeakThresholdLineEdit(), SIGNAL(editingFinished()), this, SLOT(PeakThresholdChanged()));
-	QObject::connect(transientDetectionSettings_.GetValleyToPeakRatioLineEdit(), SIGNAL(editingFinished()), this, SLOT(ValleyToPeakRatioChanged()));
-	QObject::connect(transientDetectionSettings_.GetTransientCheckBox(), SIGNAL(stateChanged(int)), this, SLOT(TransientCheckBoxChanged(int)));
+	SetupMediator();
 }
 
 MainWindow::~MainWindow()
@@ -56,53 +43,11 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::TabChanged(int tabNumber)
+void MainWindow::SetupMediator()
 {
-	waveformView_.HighlightTransient(tabNumber + 1);
-}
-
-void MainWindow::PeakThresholdChanged()
-{
-	// Get the value and do some basic error checking
-	auto newValue{transientDetectionSettings_.GetPeakThresholdLineEdit()->text().toDouble()};
-	if(newValue < .01) { newValue = 0.1;  }
-	else if(newValue > 1.0) { newValue = 1.0;  }
-
-	// Update the UI with the actual value
-	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(newValue, 'f', 2));
-
-	// Only update and refresh the UI if an audio file is loaded and the value actually changed
-	if(AudioFile().GetInstance().FileLoaded() && 
-		newValue != AudioFile().GetInstance().GetTransientDetector()->GetMinimumPeakLevel())
-	{
-		AudioFile().GetInstance().GetTransientDetector()->Reset();
-		AudioFile().GetInstance().GetTransientDetector()->SetMinimumPeakLevel(newValue);
-		AudioFile().GetInstance().RefreshTransients();
-		waveformView_.Update();
-		transientTabControl_.Reset();
-	}
-}
-
-void MainWindow::ValleyToPeakRatioChanged()
-{
-	// Get the value and do some basic error checking
-	auto newValue{transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->text().toDouble()};
-	if(newValue < 0.1) { newValue = 0.1;  }
-	else if(newValue > 100.0) { newValue = 100.0;  }
-
-	// Update the UI with the actual value
-	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(newValue, 'f', 2));
-
-	// Only update and refresh the UI if an audio file is loaded and the value actually changed
-	if(AudioFile().GetInstance().FileLoaded() && 
-		newValue != AudioFile().GetInstance().GetTransientDetector()->GetValleyToPeakRatio())
-	{
-		AudioFile().GetInstance().GetTransientDetector()->Reset();
-		AudioFile().GetInstance().GetTransientDetector()->SetValleyToPeakRatio(newValue);
-		AudioFile().GetInstance().RefreshTransients();
-		waveformView_.Update();
-		transientTabControl_.Reset();
-	}
+	mediator_.AddTransientView(transientDetection_.GetTransientView());
+	mediator_.AddWaveformView(&waveformView_);
+	transientDetection_.SetMediator(&mediator_);
 }
 
 void MainWindow::OpenFile()
@@ -126,16 +71,13 @@ void MainWindow::OpenFile()
 		AudioFile::GetInstance().Initialize(waveFileName);
 		RefreshUIWithNewFile();
 		waveformView_.Update();
-		transientTabControl_.Reset();
-
 	}
 }
 
 void MainWindow::RefreshUIWithNewFile()
 {
-	auto transientDetector{AudioFile::GetInstance().GetTransientDetector()};
-	transientDetectionSettings_.GetPeakThresholdLineEdit()->setText(QString::number(transientDetector->GetMinimumPeakLevel(), 'f', 2));
-	transientDetectionSettings_.GetValleyToPeakRatioLineEdit()->setText(QString::number(transientDetector->GetValleyToPeakRatio(), 'f', 2));
+	waveformView_.Update();
+	transientDetection_.Update();
 }
 
 void MainWindow::About()
@@ -151,7 +93,6 @@ void MainWindow::About()
 
 	QMessageBox::about(this, tr("Audio Analysis Tool"), tr(content.c_str()));
 }
-
 
 void MainWindow::SetupMenuBar()
 {
@@ -192,37 +133,21 @@ void MainWindow::SetupCentralWidget()
 	this->setCentralWidget(centralWidget_);
 
 	// The main display is a vertical layout with two rows.  The first (top) 
-	// row contains the waveform and the second (bottom) row contains an 
-	// HBoxLayout with the transient detection settings and tab control.
+	// row contains the waveform and the second (bottom) row contains 
+	// the tab control.
 
 	auto vBoxLayout = new QVBoxLayout(centralWidget_);
 	
 	waveformView_.AddControl(vBoxLayout);
+	tabControl_.AddControl(vBoxLayout);
 
-	auto hBoxLayout = new QHBoxLayout();
+	auto tabWidget{tabControl_.AddTab("Transient Detection")};
 
-	vBoxLayout->addLayout(hBoxLayout);
-
-	transientDetectionSettings_.AddSettings(hBoxLayout);
-
-	transientTabControl_.AddControl(hBoxLayout);
+	transientDetection_.AddControls(tabWidget);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
 	auto newSize = event->size();
 	waveformView_.Resize(newSize.width(), newSize.height() / 2);
-	transientTabControl_.ResetHeight(newSize.height() / 2 - tabControlPadding_);
-}
-
-void MainWindow::TransientCheckBoxChanged(int state)
-{
-	if(state == 0)
-	{
-		waveformView_.DisplayTransients(false);
-	}
-	else
-	{
-		waveformView_.DisplayTransients(true);
-	}
 }
