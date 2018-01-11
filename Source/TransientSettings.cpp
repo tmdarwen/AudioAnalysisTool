@@ -232,3 +232,11 @@ void TransientSettings::AddPeakSettings(QVBoxLayout* vBoxLayout)
 
 	peakSettingsGroupBox_->setLayout(qGridLayout);
 }
+
+void TransientSettings::ResetToDefaults()
+{
+	peakThresholdLineEdit_->setText("0.10");
+	valleyToPeakRatioLineEdit_->setText("1.50");
+	stepSizeLineEdit_->setText("512");
+	pointCountLineEdit_->setText("40");
+}

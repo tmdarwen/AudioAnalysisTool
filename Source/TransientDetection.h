@@ -12,11 +12,11 @@ class TransientDetection
 {
 	public:
 		TransientDetection();
+
 		void AddControls(QWidget* widget);
 		void Update();
-
+		void ResetSettingsToDefaults();
 		void SetMediator(Mediator* mediator);
-
 		TransientView* GetTransientView();
 
 	private:

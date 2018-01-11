@@ -70,13 +70,13 @@ void MainWindow::OpenFile()
 
 		AudioFile::GetInstance().Initialize(waveFileName);
 		RefreshUIWithNewFile();
-		waveformView_.Update();
 	}
 }
 
 void MainWindow::RefreshUIWithNewFile()
 {
 	waveformView_.Update();
+	transientDetection_.ResetSettingsToDefaults();
 	transientDetection_.Update();
 }
 

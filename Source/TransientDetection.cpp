@@ -32,3 +32,8 @@ void TransientDetection::SetMediator(Mediator* mediator)
 	transientSettings_.SetMediator(mediator);
 	transientView_.SetMediator(mediator);
 }
+
+void TransientDetection::ResetSettingsToDefaults()
+{
+	transientSettings_.ResetToDefaults();
+}

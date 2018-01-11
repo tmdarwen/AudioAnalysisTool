@@ -111,6 +111,7 @@ class TransientSettings
 		TransientSettings();
 		void AddSettings(QHBoxLayout* hBoxLayout);
 		void SetMediator(Mediator* mediator);
+		void ResetToDefaults();
 
 	private:
 		void AddPeakSettings(QVBoxLayout* vBoxLayout);
