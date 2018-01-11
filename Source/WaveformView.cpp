@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QScrollBar>
 
 WaveformView::WaveformView()
 {
@@ -25,6 +26,10 @@ void WaveformView::AddControl(QVBoxLayout* vBoxLayout)
 	graphicsView_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	graphicsView_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	graphicsView_->setScene(scene_);
+
+	// The waveform image is a little bigger than the area in which it is displayed.  The following 
+	// command keeps it from being vertically scrolled with a mousewheel.
+	graphicsView_->verticalScrollBar()->blockSignals(true);
 
 	vBoxLayout->addWidget(graphicsView_);
 }
