@@ -105,14 +105,14 @@ void Mediator::StepSizeUpdated(std::size_t newFirstLevelStepSize)
 	auto transientDetector{AudioFile::GetInstance().GetTransientDetector()};
 
 	// If no audio file is loaded, or the new value is the same as the old value, there's nothing we need to do.
-	if(!AudioFile::GetInstance().FileLoaded() || transientDetector->GetFirstLevelStepInSamples() == newFirstLevelStepSize)
+	if(!AudioFile::GetInstance().FileLoaded() || transientDetector->GetStepInSamples(Signal::TransientDetector::Step::First) == newFirstLevelStepSize)
 	{
 		return;
 	}
 
 	// Update the transient detector with the new value
 	transientDetector->Reset();
-	transientDetector->SetFirstLevelStepInSamples(newFirstLevelStepSize);
+	transientDetector->SetStepInSamples(newFirstLevelStepSize, Signal::TransientDetector::Step::First);
 	AudioFile().GetInstance().RefreshTransients();
 
 	// Update the waveform view
