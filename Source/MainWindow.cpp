@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "AudioFile.h"
 #include <Utilities/Stringify.h>
-
+#include <WaveFile/WaveFileReader.h>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>

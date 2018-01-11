@@ -4,8 +4,7 @@
 
 void AudioFile::Initialize(const std::string& waveFileName)
 {
-	auto temp = new WaveFile::WaveFileReader(waveFileName);
-	waveFileReader_.reset(temp);
+	waveFileReader_.reset(new WaveFile::WaveFileReader(waveFileName));
 	waveFileName_ = waveFileName;
 	audioData_ = waveFileReader_->GetAudioData()[0];  // Cache the audio data
 	transientDetector_.reset(new Signal::TransientDetector(waveFileReader_->GetSampleRate()));

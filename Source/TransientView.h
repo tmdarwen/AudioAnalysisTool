@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <memory>
 
 class QHBoxLayout;
 class TransientTable;
@@ -19,10 +20,10 @@ class TransientView
 		void SetChartPointCount(std::size_t newPointCount);
 
 		TransientTable* GetTransientTable();
-		TransientChart* GetTransientChart();
+		std::shared_ptr<TransientChart> GetTransientChart();
 
 	private:
-		TransientChart* transientChart_;
+		std::shared_ptr<TransientChart> transientChart_;
 		TransientTable* transientTable_;
 		Mediator* mediator_;
 };

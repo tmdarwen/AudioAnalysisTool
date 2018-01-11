@@ -2,7 +2,6 @@
 
 #include <QMainWindow>
 #include <memory>
-#include <WaveFile/WaveFileReader.h>
 #include <TransientDetection.h>
 #include "WaveformView.h"
 #include "TabControl.h"
@@ -39,8 +38,6 @@ class MainWindow : public QMainWindow
 		QAction*        actionOpen_;
 		QAction*        actionAbout_;
 		QWidget*        centralWidget_;
-
-		std::unique_ptr<WaveFile::WaveFileReader> waveFileReader_;
 
 		WaveformView waveformView_;
 		TabControl tabControl_;

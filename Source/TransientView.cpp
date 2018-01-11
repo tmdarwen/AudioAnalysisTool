@@ -17,7 +17,7 @@ void TransientView::AddControls(QHBoxLayout* hBoxLayout)
 	transientTable_ = new TransientTable();
 	hBoxLayout->addWidget(transientTable_);
 
-	transientChart_ = new TransientChart(hBoxLayout);
+	transientChart_.reset(new TransientChart(hBoxLayout));
 }
 
 void TransientView::Update()
@@ -37,7 +37,7 @@ TransientTable* TransientView::GetTransientTable()
 	return transientTable_;
 }
 
-TransientChart* TransientView::GetTransientChart()
+std::shared_ptr<TransientChart> TransientView::GetTransientChart()
 {
 	return transientChart_;
 }
