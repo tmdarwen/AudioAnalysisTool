@@ -136,6 +136,7 @@ void WaveformGraphicsItem::UpdateWaveformImage()
 	std::size_t currentHeight{static_cast<std::size_t>(scene()->sceneRect().height())};
 
 	waveformImage_.reset(new QImage(currentWidth, currentHeight, QImage::Format_RGB32));
+	waveformImage_->fill(QColor(Qt::gray));
 
 	QPainter imagePainter(waveformImage_.get());
 
