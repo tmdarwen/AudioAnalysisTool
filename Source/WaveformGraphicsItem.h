@@ -31,7 +31,6 @@ class WaveformGraphicsItem : public QGraphicsItem
 
 		void AddInvertedArea(QPainter* painter);
 
-		std::size_t activeTransientNumber_;
 		bool displayTransients_{false};
 
 		std::size_t analysisSampleStart_;

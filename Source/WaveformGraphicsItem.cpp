@@ -5,7 +5,7 @@
 #include <QImage>
 #include <algorithm>
 
-WaveformGraphicsItem::WaveformGraphicsItem() : activeTransientNumber_{1}
+WaveformGraphicsItem::WaveformGraphicsItem()
 {
 }
 

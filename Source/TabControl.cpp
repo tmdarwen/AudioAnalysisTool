@@ -10,7 +10,6 @@ TabControl::TabControl()
 void TabControl::AddControl(QVBoxLayout* vBoxLayout)
 {
 	tabControl_ = new QTabWidget();
-	auto tab = new QWidget();
 	vBoxLayout->addWidget(tabControl_);
 }
 
