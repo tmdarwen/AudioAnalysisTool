@@ -39,6 +39,11 @@ void WaveformView::Resize(int width, int height)
 	scene_->setSceneRect(0, 0, width, height);
 }
 
+void WaveformView::Redraw()
+{
+	waveformGraphicsItem_->Redraw();
+}
+
 void WaveformView::Update()
 {
 	waveformGraphicsItem_->update();

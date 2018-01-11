@@ -75,7 +75,7 @@ void MainWindow::OpenFile()
 
 void MainWindow::RefreshUIWithNewFile()
 {
-	waveformView_.Update();
+	waveformView_.Redraw();
 	transientDetection_.ResetSettingsToDefaults();
 	transientDetection_.Update();
 }

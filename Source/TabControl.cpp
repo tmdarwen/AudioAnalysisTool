@@ -19,3 +19,8 @@ QWidget* TabControl::AddTab(const std::string& tabName)
 	tabControl_->addTab(tab, tabName.c_str());
 	return tab;
 }
+
+void TabControl::Resize(std::size_t width, std::size_t height)
+{
+	tabControl_->resize(width, height);
+}

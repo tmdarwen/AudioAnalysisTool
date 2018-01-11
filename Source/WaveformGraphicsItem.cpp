@@ -23,6 +23,12 @@ QRectF WaveformGraphicsItem::boundingRect() const
 	return scene()->sceneRect();
 }
 
+void WaveformGraphicsItem::Redraw()
+{
+	redraw_ = true;
+	update();
+}
+
 QPolygon WaveformGraphicsItem::CreateWaveformPolygon()
 {
 	QPolygon polygon;
@@ -90,11 +96,12 @@ void WaveformGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsIt
 		std::size_t currentWidth{static_cast<std::size_t>(scene()->sceneRect().width())};
 		std::size_t currentHeight{static_cast<std::size_t>(scene()->sceneRect().height())};
 
-		if(currentWidth != previousWidth_ || currentHeight != previousHeight_)
+		if(currentWidth != previousWidth_ || currentHeight != previousHeight_ || redraw_)
 		{
 			UpdateWaveformImage();
 			previousWidth_ = currentWidth;
 			previousHeight_ = currentHeight;
+			redraw_ = false;
 		}
 
 		painter->drawImage(0, 0, *(waveformImage_.get()));

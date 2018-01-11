@@ -13,7 +13,8 @@ class WaveformView
 		WaveformView();
 		void AddControl(QVBoxLayout* hBoxLayout);
 		void Resize(int width, int height);
-		void Update();
+		void Redraw(); // Redraws the waveform image
+		void Update(); // Just updates the waveform display without redrawing the underlying waveform image
 		void DisplayTransients(bool displayTransients);
 		void HighlightAnalysisArea(bool highlightAnalysisArea);
 		void UpdateAnalysisArea(std::size_t sampleStart, std::size_t sampleEnd);

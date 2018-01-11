@@ -22,9 +22,10 @@ class WaveformGraphicsItem : public QGraphicsItem
 
 		void HighlightAnalysisArea(bool highlightAnalysisArea);
 
+		void Redraw();
+
 	private:
 		void UpdateWaveformImage();
-
 
 		QPolygon CreateWaveformPolygon();
 		void DrawTransientLines(QPainter* painter);
@@ -43,4 +44,5 @@ class WaveformGraphicsItem : public QGraphicsItem
 		std::unique_ptr<QImage> waveformImageInverted_;
 
 		bool highlightAnalysisArea_{false};
+		bool redraw_{false};
 };
