@@ -1,9 +1,9 @@
 #include "WaveformView.h"
 #include "WaveformGraphicsItem.h"
-
 #include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QScrollBar>
 
 WaveformView::WaveformView()
 {
@@ -27,6 +27,10 @@ void WaveformView::AddControl(QVBoxLayout* vBoxLayout)
 	graphicsView_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	graphicsView_->setScene(scene_);
 
+	// The waveform image is a little bigger than the area in which it is displayed.  The following 
+	// command keeps it from being vertically scrolled with a mousewheel.
+	graphicsView_->verticalScrollBar()->blockSignals(true);
+
 	vBoxLayout->addWidget(graphicsView_);
 }
 
@@ -35,17 +39,29 @@ void WaveformView::Resize(int width, int height)
 	scene_->setSceneRect(0, 0, width, height);
 }
 
+void WaveformView::Redraw()
+{
+	waveformGraphicsItem_->Redraw();
+}
+
 void WaveformView::Update()
 {
 	waveformGraphicsItem_->update();
 }
 
-void WaveformView::HighlightTransient(std::size_t transientNumber)
-{
-	waveformGraphicsItem_->SetActiveTransient(transientNumber);
-}
-
 void WaveformView::DisplayTransients(bool displayTransients)
 {
 	waveformGraphicsItem_->DisplayTransients(displayTransients);
+}
+
+void WaveformView::HighlightAnalysisArea(bool highlightAnalysisArea)
+{
+	waveformGraphicsItem_->HighlightAnalysisArea(highlightAnalysisArea);
+	Update();
+}
+
+void WaveformView::UpdateAnalysisArea(std::size_t sampleStart, std::size_t sampleEnd)
+{
+	waveformGraphicsItem_->UpdateAnalysisWindow(sampleStart, sampleEnd);
+	Update();
 }

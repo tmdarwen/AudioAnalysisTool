@@ -2,10 +2,10 @@
 
 #include <QMainWindow>
 #include <memory>
-#include <WaveFile/WaveFileReader.h>
-#include <TransientDetectionSettings.h>
-#include <TransientTabControl.h>
-#include <WaveformView.h>
+#include <TransientDetection.h>
+#include "WaveformView.h"
+#include "TabControl.h"
+#include "Mediator.h"
 
 class QMenuBar;
 class QMenu;
@@ -25,19 +25,12 @@ class MainWindow : public QMainWindow
 	private slots:
 		void OpenFile();
 		void About();
-		void TabChanged(int tabNumber);
-		void PeakThresholdChanged();
-		void ValleyToPeakRatioChanged();
-		void TransientCheckBoxChanged(int state);
 
 	private:
 		void SetupMenuBar();
 		void SetupCentralWidget();
+		void SetupMediator();
 		void RefreshUIWithNewFile();
-
-		TransientDetectionSettings transientDetectionSettings_;
-		TransientTabControl transientTabControl_;
-		WaveformView waveformView_;
 
 		QMenuBar*       menuBar_;
 		QMenu*          menuFile_;
@@ -46,10 +39,11 @@ class MainWindow : public QMainWindow
 		QAction*        actionAbout_;
 		QWidget*        centralWidget_;
 
-		std::unique_ptr<WaveFile::WaveFileReader> waveFileReader_;
+		WaveformView waveformView_;
+		TabControl tabControl_;
+		TransientDetection transientDetection_;
+		Mediator mediator_;
 
 		const int startingWidth_{1000};
 		const int startingHeight_{600};
-
-		const int tabControlPadding_{20};
 };
